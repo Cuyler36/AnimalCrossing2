@@ -6,9 +6,17 @@
 80005760 convert_partial_address
 800057C0 LoadStringTable
 8000580C UnLink
-800058B8 LoadLink
-80005AA4 LoadLink_compare
-80005B44 Get_free_buff_p_for_moduleI_or_moduleO
+800058B8 LoadLink*/
+uint32_t* LoadLink_compare(const char* path1, const char* path2, r5, r6) {
+	uint32_t* handle = LoadLink(path2, 0, 0, 0, 0, 0, 0);
+	int size = JW_GetMemBlockSize(handle);
+	UnLink(handle, 0, 0);
+	if (size > 0)
+		return LoadLink(path1, 0, size, 1, 1, r5, r6);
+	else
+		return LoadLink(path1, 0, 0, 1, 1, r5, r6);
+}
+/*80005B44 Get_free_buff_p_for_moduleI_or_moduleO
 80005B74 set_info_ReloadLink_module_IorO
 80005BD0 reset_info_ReloadLink_module_IorO
 80005BE8 ReloadLink_module_IorO
@@ -27,7 +35,7 @@
 
 int main(int argc, const char *argv[]) {
 	//TODO: standardize case, add some stuff, audited p well
-	uint32_t saveStart, saveEnd;
+	uint32_t saveStart, saveEnd, var1, var2;
 	uint64_t InitialStartTime;
 	uint16_t tbl[3]; //easiest way ig
 	DVDFileInfo fileInfo;
@@ -41,10 +49,11 @@ int main(int argc, const char *argv[]) {
 	OSInit();
 	OSInitAlarm();
 	bzero(osAppNMIBuffer, 0x40);
-	
-	if (!OSGetResetCode()) //s32, can be negative
+
+	int32_t resetCode = OSGetResetCode(); //s32, can be negative
+	if (resetCode == 0)
 		OSReport("System Power On\n");
-	else if (OSGetResetCode() < 0) {
+	else if (resetCode == 0x80000000) {
 		OSReport("Restart\n");
 		OSGetSaveRegion(saveStart, saveEnd);
 		OSReport("OSGetSaveRegion %08x %08x\n", saveStart, saveEnd);
@@ -119,7 +128,7 @@ int main(int argc, const char *argv[]) {
 	}
 	
 	JC_JUTAssertion_changeDisplayTime(0x258);
-	//todo: stupid InitialStartTime calc
+	OSReport("InitialStartTime=%u us\n", (uint32_t) __div2u(InitialStartTime << 3, 0x144));
 	sound_initial();
 	initial_menu_init();
 	dvderr_init();
@@ -133,7 +142,14 @@ int main(int argc, const char *argv[]) {
 	if (boot_copyDate == 0)
 		OSDVDFatalError();
 	LoadStringTable("/static.str");
-	//todo: stack stuff here part 1
+	
+	var1 = 0; var2 = 0;
+	reset_info_ReloadLink_module_IorO();
+	moduleO = LoadLink_compare("/foresto.rel.szs", "/foresti.rel.szs", var1, var2);
+	buff_p_for_moduleI_or_moduleO = moduleO;
+	buff_size_for_moduleI_or_moduleO = JW_GetMemBlockSize(moduleO);
+	set_info_ReloadLink_module_IorO(var1, var2);
+	
 	moduleD = LoadLink("/forestd.rel.szs", 0, 0, 1, 0, 0, 0);
 	moduleA = LoadLink("/foresta.rel.szs", 0, 0, 1, 0, 0, 0);
 	JW_Load_AGB_archive_special();
@@ -141,7 +157,12 @@ int main(int argc, const char *argv[]) {
 	JW_Init2();
 	initial_menu_cleanup();
 	if (!buff_p_for_moduleI_or_moduleO) {
-		//todo: stack stuff here part 2
+		var1 = 0; var2 = 0;
+		reset_info_ReloadLink_module_IorO();
+		moduleO = LoadLink_compare("/foresto.rel.szs", "/foresti.rel.szs", var1, var2);
+		buff_p_for_moduleI_or_moduleO = moduleO;
+		buff_size_for_moduleI_or_moduleO = JW_GetMemBlockSize(moduleO);
+		set_info_ReloadLink_module_IorO(var1, var2);
 	}
 	if (moduleD == 0)
 		moduleD = LoadLink("/forestd.rel.szs", 0, 0, 1, 0, 0, 0);
