@@ -13,10 +13,14 @@ void graph_ct(uint32_t* graph_class) {
 	*(int16_t*)(debug_mode+0x116) &= -3; //???
 	*(int16_t*)(debug_mode+0x116) &= -2; //???
 	zurumode_init();
-	*(uint8_t*)(graph_class+0x363) = 1; //step 1?
+	*(uint8_t*)(graph_class+0x360) = 1; //step 1?
+}
+
+void graph_dt(uint32_t* graph_class) {
+	*(uint8_t*)(graph_class+0x360) = 0x15; //step 0x15?
+	zurumode_cleanup();
 }
 /*
-80E84A20 graph_dt
 80E84A48 graph_task_set00
 80E84B20 graph_draw_finish
 80E84D7C do_soft_reset
