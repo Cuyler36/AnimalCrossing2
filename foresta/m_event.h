@@ -1,0 +1,41 @@
+#pragma once
+
+/*
+810EE1B0 .rodata
+810EE1B0 str_810EE1B0
+810EE1B4 str_810EE1B4
+810EE1B8 str_810EE1B8
+810EE1C4 str_810EE1C4
+810EE1D0 str_810EE1D0
+810FF6C8 .data
+810FF6C8 title_demo_number
+810FF6CC event_schedule_data
+810FFD14 event_rumor_table
+810FFD78 n_event_rumors
+810FFD7C calendar_event_table
+810FFE00 n_calendar_events
+810FFE04 special_event_types
+810FFE10 n_special_event_type
+810FFE14 last_day
+810FFE20 str_810FFE20
+810FFF24 str_810FFF24
+810FFF78 str_810FFF78
+81100024 str_81100024
+811000D0 l_ev_structure_table
+811000FC num_of_l_ev_structure
+81100100 str_81100100
+81100104 str_81100104
+81100108 str_81100108
+8110011C str_8110011C
+812B7690 .bss
+812B7690 n_today_events
+812B7694 status_edge
+812B7698 funeral
+812B769C dead
+812B76A0 weekday1st_year
+812B76A4 weekday1st
+812B76B4 event_today
+812B77B4 index_today
+812B782C n_rumor
+812B7830 rumor_table
+*/

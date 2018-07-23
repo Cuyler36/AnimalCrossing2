@@ -7,14 +7,14 @@
 800057C0 LoadStringTable
 8000580C UnLink
 800058B8 LoadLink*/
-uint32_t* LoadLink_compare(const char* path1, const char* path2, r5, r6) {
+uint32_t* LoadLink_compare(const char* path1, const char* path2, uint32_t var1, uint32_t var2) {
 	uint32_t* handle = LoadLink(path2, 0, 0, 0, 0, 0, 0);
 	int size = JW_GetMemBlockSize(handle);
 	UnLink(handle, 0, 0);
 	if (size > 0)
-		return LoadLink(path1, 0, size, 1, 1, r5, r6);
+		return LoadLink(path1, 0, size, 1, 1, var1, var2);
 	else
-		return LoadLink(path1, 0, 0, 1, 1, r5, r6);
+		return LoadLink(path1, 0, 0, 1, 1, var1, var2);
 }
 /*80005B44 Get_free_buff_p_for_moduleI_or_moduleO
 80005B74 set_info_ReloadLink_module_IorO
