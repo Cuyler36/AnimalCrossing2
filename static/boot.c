@@ -20,11 +20,27 @@ uint32_t* LoadLink_compare(const char* path1, const char* path2, uint32_t var1, 
 80005B74 set_info_ReloadLink_module_IorO
 80005BD0 reset_info_ReloadLink_module_IorO
 80005BE8 ReloadLink_module_IorO
-80005D78 audioFatalCallback
-80005DA8 sound_initial
-80005DF0 sound_initial2
-80005E38 HotResetIplMenu
-80005E88 fault_callback_keyCheck
+80005D78 audioFatalCallback*/
+void sound_initial(void) {
+	Na_InitAudio(audioFatalCallback, nintendo_hi_0, 0x66A0); //sizeof(nintendo_hi_0)? hardcode for now
+	msleep(2500);
+}
+
+void sound_initial2(void) {
+	while (Na_CheckNeosBoot() & 0xFF) {
+		VIWaitForRetrace();
+		Na_GameFrame();
+	}
+	bzero(nintendo_hi_0, 0x9900);
+}
+
+void HotResetIplMenu(void) {
+	if (osAppNMIBuffer[15] & 0x10)
+		OSChangeBootMode(1);
+	OSResetSystem(1, osAppNMIBuffer[15], 1);
+}
+
+/*80005E88 fault_callback_keyCheck
 80005F20 fault_callback_OK
 80005F58 fault_callback_Setumei
 80005F84 fault_callback_first

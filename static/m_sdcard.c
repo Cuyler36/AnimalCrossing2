@@ -1,0 +1,109 @@
+#include "m_sdcard.h"
+
+/*
+800096D8 .text
+800096D8 S_CRV32SET
+800096E4 mCsd_tiffBufferSize_get
+800096F4 mCsd_nowdrive_get
+80009704 mCsd_nowdrive_set
+80009710 mCsd_set_mura_filename
+800097C4 mCsd_set_mura_filename_tmp_set
+80009824 mCsd_mura_filename_equal_cgeck
+8000986C mCsd_set_mura_filename_dbm_set
+800098CC mCsd_set_mura_filename_tmp_check__Fv
+8000992C mCsd_set_mura_filename_dbm_get__FPc
+800099AC mCsd_set_mura_filename_tmp_get__FPc
+80009A2C mSD_fileentry_next__FP15JUTSDCardFinderi
+80009AB4 mSD_DCIM_dirno_get__Fv
+80009C80 mCsd_sdcard_selectslot_chk
+80009D04 mCsd_sdcard_slot_chk
+80009D98 mCsd_sdcard_selectslot_sweet_chk
+80009DD4 mCsd_sdcard_sweet_chk
+80009E10 mSD_sdcard_unmount__Fi
+80009E4C mSD_sdcard_terminate__Fi
+80009E88 mSD_unmout_and_terminate__Fi
+80009EBC mSD_close_unmout_and_terminate__Fi
+80009EF8 mSD_sdcard_init__Fv
+80009F54 mSD_sdcard_setup__Fi
+80009FA0 mSD_sdcard_mount__Fi
+8000A058 mSD_sdcard_makeDirectory__FiPc
+8000A140 mSD_sdcard_fileopen__FiPcUs
+8000A238 mSD_sdcard_create_fileopen__FiPci
+8000A3C0 mSD_sdcard_filewrite__FiPUciPc
+8000A4DC mSD_sdcard_filerename__FiPcPc
+8000A500 mSD_sdcard_fileread__FiPci
+8000A5D0 mSD_sdcard_tiff_fileread__FiPci
+8000A6AC mSD_sdcard_format_common__Fi
+8000A73C mSD_sdcard_removeFile_common__FiPc
+8000A788 mSD_set_tiffname__FPci
+8000A898 mSD_tiff_nextnumber_get_common__FPiPi
+8000AAD4 mSD_tiff_get_spacenumber_get__Fv
+8000AD24 mSD_tiff_get_startnumber_common__Fv
+8000AF20 mSD_tiff_make
+8000B1A8 mSD_sdcard_test
+8000B228 mSD_sdcard_mura_write
+8000B42C mSD_sdcard_tiff_write
+8000B6AC mSD_sdcard_mura_read
+8000B7BC mSD_sdcard_tiff_read_common
+8000B964 mSD_tiff_nextnumber_get
+8000BA9C mSD_tiff_picno_remove
+8000BB70 mSD_tiff_remove_min__Fv
+8000BC5C mSD_tiff_remove_all
+8000BCE4 mSD_sdcard_format
+8000BD74 mSD_TiffToRGB565
+8000BE30 __ct__7JUTTiffFRC7JUTTiff
+8000BF8C __ct__12JUTTiff_IFD0FRC12JUTTiff_IFD0
+8000C000 mSD_Get_tex_p_inResTIMG*/
+mSD_mura_nextname_get_common_common(char *, int *) {
+	finder = new JUTSDCardFinder();
+}
+
+int mSD_mura_nextname_get_common(r3, r4) {
+	int check = mCsd_sdcard_slot_chk();
+	if (check < 0)
+		return 0x22;
+	mCsd_nowdrive_set(check);
+	mSD_sdcard_init();
+}
+/*
+8000C2B0 mSD_mura_allcount_get_common
+8000C328 mSD_mura_specification_remove
+8000C478 mSD_mura_remove_all
+8000C53C mSD_mura_repayment_remove
+8000C5EC mSD_mura_make_directory
+8000C764 mSD_sdcard_write_protect_check
+8000C8FC mSD_static_clear
+8000C918 __sinit_m_sdcard_cpp
+8000C954 .text_00
+8000C954 isDirectory__13JKRFileFinderCFv
+8000C95C isAvailable__13JKRFileFinderCFv
+8000C964 .text_01
+8000C964 getPathName__15JUTSDCardFinderCFv
+8000C96C makeDirectory__10JUTSDDriveFPCc
+8000C99C getCurrentDrive__10JUTSDDriveFv
+8000C9AC setCurrentDirectory__10JUTSDDriveFPCc
+8000C9DC setCurrentDrive__10JUTSDDriveFi
+8000C9E8 .text_02
+8000C9E8 getErrorStatus__9JUTSDFileCFv
+8000C9F0 open__9JUTSDFileFPCcUs
+8000CA40 .text_03
+8000CA40 getFileSize__7JUTTiffCFv
+8000CA48 setDate_digitized__7JUTTiffFPUc
+8000CA50 setDate_original__7JUTTiffFPUc
+8000CA58 setDate_modified__7JUTTiffFPUc
+8000CA60 setComment__7JUTTiffFPUci
+8000CA6C setArtist__7JUTTiffFPUc
+8000CA74 setSoftware__7JUTTiffFPUc
+8000CA7C setCopyright__7JUTTiffFPUcPUc
+8000CAC0 setCopyright_editor__7JUTTiffFPUc
+8000CAC8 setCopyright_photographer__7JUTTiffFPUc
+8000CAD0 setModel__7JUTTiffFPUc
+8000CAD8 setMaker__7JUTTiffFPUc
+8000CAE0 setTitle__7JUTTiffFPUc
+8000CAE8 setThumbnailIncluding__7JUTTiffFb
+8000CAF0 setDecalImagePos__7JUTTiffFii
+8000CB10 setDecalImageArea__7JUTTiffFPUc11_GXCompTypeiiUl
+8000CB38 getCompression__7JUTTiffCFv
+8000CB40 getImageHeight__7JUTTiffCFv
+8000CB48 getImageWidth__7JUTTiffCFv
+*/

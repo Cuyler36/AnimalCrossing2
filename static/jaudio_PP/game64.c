@@ -1,0 +1,132 @@
+#include "game64.h"
+
+/*
+80010260 .text
+80010260 .text_00
+80010260 __OK__FUl
+800102B0 dummy_callback__FPcUlUlPUlP7jaheap_
+80010348 BootSound__FUlUl
+800103E8 .text_01
+800103E8 Sou_lev_ongen_data_struct_clear__Fv
+800107F0 Sou_BgmFadeoutEndCheck__Fv
+80010848 Sou_BgmTrackMute__FUs
+800109F8 Sou_GroupControl__FUcUcf
+80010AD0 Sou_GroupControl_MD__FUcUcf
+80010BA8 pan_kochou__FUcf
+80010C60 angle2pan__FUsf
+80010D18 distance2vol__Ff
+80010D94 distance2vol4KITEKI
+80010DF0 distance2vol4MD
+80010E6C Sou_VoiceStart__FUcUc
+80010EAC Sou_TrgStart__FUsfffUcUcf
+80011520 Sou_SpecialRoutine00__Fv
+800115C8 Sou_SpecialRoutine02__Fv
+800115F8 Sou_SpecialRoutine03__Fv
+80011628 Sou_TrgEndCheck__Fv
+80011750 Sou_LevStart__FUcUc
+80011964 Sou_LevStop__FUcUc
+80012450 Sou_TrgMake__FUc
+800125BC Sou_VoiceMake__FUc
+80012734 Sou_LevMake__FUc
+800129E8 Sou_ChimeMake__Fv
+80012A54 Sou_LevSet__FUc
+800132D0 Sou_Insect_Lev_Cont__Fv
+800133FC Sou_Ongen_Lev_Cont__Fv
+800139E0 Sou_Ongen_Lev_Prog__FUc
+8001400C Sou_BgmStart__FUsUs
+800141BC Sou_BGMVolMove__Fv
+80014464 Sou_Na_BgmStart__FUs
+800144DC Sou_Na_BgmStop__FUs
+8001453C Sou_SpecialRoutine06__Fv
+80014644 Sou_SpecialRoutine07__Fv
+80014660 Sou_SeFadeoutRoutine__Fv
+800148A0 Sou_SeFadeinRoutine__Fv
+80014AE0 Sou_SeVolumeReset__Fv
+80014B88 Sou_SeTrFadeout__FUcUs
+80014BC0 Sou_SeFadeout__FUs
+80014C1C Sou_SpecialRoutine08__Fv
+80014C44 Sou_SpecialRoutine11__Fv
+80014D04 Sou_SpecialRoutine12__Fv
+80014D10 Sou_InitAudio__Fv
+800151A8 __as__11SOU_SE_FADEFRC11SOU_SE_FADE
+800151D4 __as__12SOU_ROOM_INSFRC12SOU_ROOM_INS
+80015200 __as__11SOU_SYS_LEVFRC11SOU_SYS_LEV
+8001521C __as__15SOU_ONGEN_ENTRYFRC15SOU_ONGEN_ENTRY
+80015258 __as__18SOU_LEV_ONGEN_DATAFRC18SOU_LEV_ONGEN_DATA
+800152A4 __as__12SOU_LS_STACKFRC12SOU_LS_STACK
+800152E8 __as__10SOU_LEV_SEFRC10SOU_LEV_SE
+8001535C __as__12SOU_VOICE_SEFRC12SOU_VOICE_SE
+800153B0 __as__10SOU_TRG_SEFRC10SOU_TRG_SE
+80015414 Sou_DVD_Error__FPcPUc
+8001543C Na_GetAudioARAMSize*/
+
+void Na_InitAudio(r3, r4, r5, r6) {
+	fatalErrorCallback = r3;
+	SetPreCopy_NeosRom(0, 0, 0);
+	Jac_RegisterDVDErrorCallback(Sou_DVD_Error);
+	Jac_Start(audiomemory, 9, r6);
+	BootSound(r4, r5);
+	sou_NeosBootCheck_ok = 1;
+}
+
+/*800154E4 Na_GameFrame
+8001565C Na_Reset
+80015680 Na_SoftReset
+80015944 Na_Tenki
+8001595C Na_BgmStart
+8001597C Na_BgmCrossfadeStart
+8001598C Na_BgmStop
+8001599C Na_SysTrgStart
+80015B1C Sou_WalkSe__FUsUsfUcf
+80015CC8 Na_PlyWalkSe
+80015D70 Na_PlyWalkSeRoom
+80015E88 Na_NpcWalkSe
+80015F04 Na_NpcWalkSeRoom
+80015FDC Na_PlayerStatusLevel
+80015FE8 Na_VoiceSe
+80016C54 Na_MessageStatus
+80016C6C Na_MessageSpeed
+80016C74 Na_MessageSpeedGet
+80016C7C Na_OngenPos
+8001737C Sou_PosTrgStart__FUsUsfUcf
+800175B0 Na_OngenTrgStartSpeed
+8001765C Na_OngenTrgStart
+80017820 Na_SetOutMode
+800178A0 Na_SetVoiceMode
+800178A8 Na_FloorTrgStart
+8001793C Na_SysLevStart
+80017AF4 Na_SysLevStop
+80017BB8 Na_Pause
+80017C74 Na_RhythmPos
+80017D48 Na_SpecChange
+80017E14 Na_MDPlayerPos
+80017F54 Na_BGMVolume
+8001800C Na_RestartPrepare
+80018048 Na_CheckRestartReady
+8001806C Na_Restart
+800180A0 Na_SubGameOK
+8001811C Na_KishaStatusTrg
+80018238 Na_KishaStatusLevel
+800183DC Na_TTKK_ARM
+800184B8 Na_BgmMuteClear
+8001852C Na_BgmFadeoutCheck
+8001858C Na_SeFadeoutCheck
+80018618 Na_BgmTrOn
+80018660 Na_BgmTrOff
+800186A8 Na_SubGameStart
+800186DC Na_SubGameEnd
+80018708 Na_SceneMode
+80018AD0 Na_RoomIncectPos
+80018F9C Na_FurnitureInstPos
+8001909C Na_TrgSeEcho
+800190EC Na_LevSeEcho
+80019134 Na_BGMFilter
+80019274 Na_RoomType
+80019300 Na_CheckNeosBoot
+80019330 Na_Museum
+800193BC Na_GetSoundFrameCounter
+800193CC Na_kazagurumaLevel
+800193D4 Na_StartSeq
+80019440 Na_FuushaOngenPos
+80019488 Na_PrivateIslandStatus
+*/
