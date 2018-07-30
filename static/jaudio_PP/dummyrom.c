@@ -1,13 +1,29 @@
 #include "dummyrom.h"
 
-/*
-8001C900 .text
-8001C900 GetNeos_FileTop__Fv
-8001C920 GetNeosRomTop__Fv
-8001C940 GetNeosRom_PreLoaded__Fv
-8001C980 SetPreCopy_NeosRom__FPUcUli
-8001C9A0 mesg_finishcall__FUl
-8001C9E0 ARAMStartDMAmesg__FUlUlUlUllP13OSMesgQueue_s*/
+int32_t GetNeos_FileTop(void) {
+	int32_t negative = -init_load_size;
+	return init_cut_flag & ~(negative - negative)
+}
+
+uint32_t GetNeosRomTop(void) {
+	return AUDIO_ARAM_TOP;
+}
+
+uint32_t GetNeosRom_Preloaded(void) {
+	DVDT_DRAMtoARAM(0, init_load_addr, AUDIO_ARAM_TOP, init_load_size, 0, 0);
+	return init_load_size;
+}
+
+void SetPreCopy_NeosRom(uint8_t* loadAddr, uint32_t loadSize, int32_t cutFlag) {
+	init_load_size = loadSize;
+	init_load_addr = loadAddr;
+	init_cut_flag = cutFlag;
+}
+
+void mesg_finishcall(uint32_t Message) {
+	Z_osSendMesg((OSMesgQueue_s *)Message, 0, 0);
+}
+
 int ARAMStartDMAmesg(uint32_t ARAMtoDRAM, uint32_t DRAMAddress, uint32_t ARAMAddress, uint32_t DMASize, int32_t Unused, OSMesgQueue_s* Message) {
 	ARAMAddress += AUDIO_ARAM_TOP; // Usually 0x4000
 	if (ARAMtoDRAM == 1) {
