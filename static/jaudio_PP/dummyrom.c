@@ -8,10 +8,14 @@
 8001C980 SetPreCopy_NeosRom__FPUcUli
 8001C9A0 mesg_finishcall__FUl
 8001C9E0 ARAMStartDMAmesg__FUlUlUlUllP13OSMesgQueue_s*/
-int ARAMStartDMAmesg(uint32_t, uint32_t, uint32_t, uint32_t, int32_t, OSMesgQueue_s *) {
-	
-	
-	
+int ARAMStartDMAmesg(uint32_t ARAMtoDRAM, uint32_t DRAMAddress, uint32_t ARAMAddress, uint32_t DMASize, int32_t Unused, OSMesgQueue_s* Message) {
+	ARAMAddress += AUDIO_ARAM_TOP; // Usually 0x4000
+	if (ARAMtoDRAM == 1) {
+		DVDT_ARAMtoDRAM(Message, DRAMAddress, ARAMAddress, DMASize, 0, &mesg_finishcall);
+	}
+	else {
+		DVDT_DRAMtoARAM(Message, DRAMAddress, ARAMAddress, DMASize, 0, &mesg_finishcall);
+	}
 	return 0;
 }
 
